@@ -1,8 +1,9 @@
 <?php 
+require_once "../src/Database/Conecta.php";
 require_once "../src/Models/Usuario.php";
 require_once "../src/Helpers/Utils.php";
 require_once "../src/Services/UsuarioServico.php";
-require_once "../src/Database/Conecta.php";
+
 
 // Variável 
 $erro = null;
@@ -40,8 +41,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 			$usuarioServico->inserir($novoUsuario);
 
-			header("location:usuario.php");
-			exit;
+			Utils::redirecionarPara("usuarios.php");
+			
 			} catch (\Throwable $e) {
 				/* Se alguma ação dentro do try falhar,
 				o PHP vai lançar (usando a classe Throwable) um erro.

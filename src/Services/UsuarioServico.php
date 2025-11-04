@@ -29,6 +29,12 @@ class UsuarioServico {
         $consulta->execute();
     }
 
+    // SELECT
+    public function buscar():array {
+        $sql = "SELECT * FROM usuarios ORDER BY nome";
+        $consulta = $this->conexao->query($sql);
+        return $consulta->fetchAll();
+    }
     
 
 }
