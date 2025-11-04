@@ -1,10 +1,14 @@
 <?php 
 require_once "../src/Models/Usuario.php";
 require_once "../src/Helpers/Utils.php";
+require_once "../src/Services/UsuarioServico.php";
+require_once "../src/Database/Conecta.php";
 
 // Variável 
 $erro = null;
 
+// Inicializando um objeto de serviço para o CRUD de Usuarios
+$usuarioServico = new UsuarioServico();
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 	// Validação do preenchimento dos campos
@@ -17,21 +21,35 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		$erro = "Preencha todos os campos";	
 
 	} else {
-		// Capturando e sanitizando os valores do formulário
-		$nome = Utils::sanitizar($_POST['nome']);
-		$email = Utils::sanitizar($_POST['email'], 'email');
-		$tipo = Utils::sanitizar($_POST['tipo']);
 
-		// Capturando e codificando (gerando um hash) da senha
-		$senha = Utils::codificarSenha($_POST['senha']);
+		try {
+			// Capturando e sanitizando os valores do formulário
+			$nome = Utils::sanitizar($_POST['nome']);
+			$email = Utils::sanitizar($_POST['email'], 'email');
+			$tipo = Utils::sanitizar($_POST['tipo']);
 
-		// Criando um objeto para um novo usuario com seus dados
-		$novoUsuario = new Usuario($nome, $email, $senha, $tipo);
+			// Capturando e codificando (gerando um hash) da senha
+			$senha = Utils::codificarSenha($_POST['senha']);
 
-		// Teste seu método dump AQUI passando o objeto $novoUsuario
+			// Criando um objeto para um novo usuario com seus dados
+			$novoUsuario = new Usuario($nome, $email, $senha, $tipo);
 
-		Utils::dump($novoUsuario);
-		
+			// Teste seu método dump AQUI passando o objeto $novoUsuario
+
+			Utils::dump($novoUsuario);
+
+			$usuarioServico->inserir($novoUsuario);
+
+			header("location:usuario.php");
+			exit;
+			} catch (\Throwable $e) {
+				/* Se alguma ação dentro do try falhar,
+				o PHP vai lançar (usando a classe Throwable) um erro.
+				Ao usar o parâmetro "e" (ou outro nome),
+				temos acesso aos detalhes do que aconteceu */
+				$erro = "Erro ao inserir usuário. <br>" . $e->getMessage();
+			}
+			
 	}
 
 
