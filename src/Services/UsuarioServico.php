@@ -1,6 +1,6 @@
 <?php
 // src/Services/UsuarioServico.php
-require_once "../Models/Usuario.php";
+require_once "../src/Models/Usuario.php";
 
 class UsuarioServico {
 
@@ -59,11 +59,11 @@ class UsuarioServico {
 
     public function atualizar(Usuario $dadosDoUsuario):void {
 
-        $sql = "UPDATE usuario SET 
+        $sql = "UPDATE usuarios SET 
                         nome = :nome,
                         email = :email, 
                         tipo = :tipo,
-                        senha = :senha,
+                        senha = :senha
 
                 WHERE id = :id";
         
