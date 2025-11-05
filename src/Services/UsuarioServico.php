@@ -1,8 +1,9 @@
 <?php
 // src/Services/UsuarioServico.php
+require_once "../Models/Usuario.php";
 
 class UsuarioServico {
-    
+
     private PDO $conexao;
 
     /* Toda vez que criarmos um objeto baseado na classe UsuarioServico,
@@ -54,6 +55,27 @@ class UsuarioServico {
 
     }
 
-}
+    // atualizar (UPDATE)
 
+    public function atualizar(Usuario $dadosDoUsuario):void {
+
+        $sql = "UPDATE usuario SET 
+                        nome = :nome,
+                        email = :email, 
+                        tipo = :tipo,
+                        senha = :senha,
+
+                WHERE id = :id";
+        
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":nome", $dadosDoUsuario->getNome());
+        $consulta->bindValue(":email", $dadosDoUsuario->getEmail());
+        $consulta->bindValue(":tipo", $dadosDoUsuario->getTipo());
+        $consulta->bindValue(":senha", $dadosDoUsuario->getSenha());
+        $consulta->bindValue(":id", $dadosDoUsuario->getId());
+
+        $consulta->execute();
+    }
+
+}
 ?>
