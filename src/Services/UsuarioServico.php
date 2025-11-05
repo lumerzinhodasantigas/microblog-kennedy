@@ -1,5 +1,6 @@
 <?php
 // src/Services/UsuarioServico.php
+require_once "../src/Database/Conecta.php";
 require_once "../src/Models/Usuario.php";
 
 class UsuarioServico {
@@ -75,6 +76,15 @@ class UsuarioServico {
         $consulta->bindValue(":id", $dadosDoUsuario->getId());
 
         $consulta->execute();
+    }
+
+    public function excluirUsuario($conexao, $id){
+
+        $sql = "DELETE FROM usuarios WHERE id = :id";
+        $consulta = $conexao->prepare($sql);
+        $consulta->bindValue(":id", $id);
+        $consulta->execute();
+
     }
 
 }

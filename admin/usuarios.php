@@ -79,8 +79,11 @@ try {
 	</article>
 </div>
 
+<script src="../js/confirmar-exclusao.js"></script>
 
 <?php 
 require_once "../includes/rodape-admin.php";
 ?>
+
+
 
