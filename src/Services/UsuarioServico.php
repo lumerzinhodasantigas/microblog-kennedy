@@ -2,6 +2,7 @@
 // src/Services/UsuarioServico.php
 
 class UsuarioServico {
+    
     private PDO $conexao;
 
     /* Toda vez que criarmos um objeto baseado na classe UsuarioServico,
