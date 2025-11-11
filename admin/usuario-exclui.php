@@ -12,37 +12,42 @@ try {
     $dados = $usuarioServico->buscarPorId($id);
 
     if (!$dados) {
-
         $erro = "Usuário não encontrado";
-		
+    } else {
+        $usuarioServico->excluirUsuario($id);
     }
-
-    $usuarioServico->excluirUsuario($id, $conexao);
-    Utils::redirecionarPara("usuarios.php");
 
 } catch (Throwable $e) {
 
     $erro = "Erro ao excluir usuário. <br>" . $e->getMessage();
+	
 }
+
 ?>
 
-
 <div class="row">
+
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 
-		<h2 class="text-center">
-			Excluir usuário
-		</h2>
+		<h2 class="text-center">Excluir usuário</h2>
 
-		<p> Usuário excluído com sucesso </p>
+		<?php if (isset($erro)): ?>
 
-		<a href="../admin/usuarios.php">
-			<p> Voltar </p>
-		</a>
+			<p class="alert alert-danger text-center"><?=$erro?></p>
+
+		<?php else: ?>
+
+			<p class="alert alert-success text-center">Usuário excluído com sucesso!</p>
+
+		<div class="text-center">
+
+			<a href="usuarios.php" class="btn btn-primary">Voltar</a>
+
+		</div>
+
+		<?php endif; ?>
+
 	</article>
 </div>
 
-
-<?php
-require_once "../includes/rodape-admin.php";
-?>
+<?php require_once "../includes/rodape-admin.php"; ?>

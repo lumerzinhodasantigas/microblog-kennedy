@@ -17,7 +17,6 @@ try {
 
 ?>
 
-
 <div class="row">
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 		

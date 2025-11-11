@@ -78,13 +78,11 @@ class UsuarioServico {
         $consulta->execute();
     }
 
-    public function excluirUsuario($conexao, $id){
-
+    public function excluirUsuario(int $id):void {
         $sql = "DELETE FROM usuarios WHERE id = :id";
-        $consulta = $conexao->prepare($sql);
-        $consulta->bindValue(":id", $id);
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":id", $id, PDO::PARAM_INT);
         $consulta->execute();
-
     }
 
 }

@@ -58,11 +58,11 @@ class Utils {
     }
 
     public static function excluirUsuario($conexao, $id){
-    $sql = "DELETE FROM usuarios WHERE id = :id";
-    $consulta = $conexao->prepare($sql);
-    $consulta->bindValue(":id", $id);
-    $consulta->execute();
-}
+        $sql = "DELETE FROM usuarios WHERE id = :id";
+        $consulta = $conexao->prepare($sql);
+        $consulta->bindValue(":id", $id);
+        $consulta->execute();
+    }   
 
 }
 
