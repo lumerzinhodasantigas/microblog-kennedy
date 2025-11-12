@@ -1,7 +1,7 @@
 <?php
 // src/Services/UsuarioServico.php
-require_once "../src/Database/Conecta.php";
-require_once "../src/Models/Usuario.php";
+require_once "src/Database/Conecta.php";
+require_once "src/Models/Usuario.php";
 
 class UsuarioServico {
 
@@ -85,5 +85,20 @@ class UsuarioServico {
         $consulta->execute();
     }
 
+
+    // buscarPorEmail (SELECT)
+    public function buscarPorEmail(string $valorEmail): ?array {
+
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":email", $valorEmail);
+        $consulta->execute();
+
+        /* A expressão no return é TRUE?
+        Então retorne os dados como array (fetch)
+        Senão, retorne null */
+        return $consulta->fetch() ?: null;
+
+    }
 }
 ?>
