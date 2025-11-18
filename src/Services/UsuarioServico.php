@@ -1,7 +1,5 @@
 <?php
 // src/Services/UsuarioServico.php
-require_once "src/Database/Conecta.php";
-require_once "src/Models/Usuario.php";
 
 class UsuarioServico {
 
