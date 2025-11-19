@@ -1,7 +1,25 @@
 <?php
+require_once "../src/Database/Conecta.php";
+require_once "../src/Models/Noticia.php";
+require_once "../src/Services/NoticiaServico.php";
 require_once "../src/Helpers/Utils.php";
 require_once "../src/Services/AutenticacaoServico.php";
 AutenticacaoServico::exigirLogin();
+
+$erro = null;
+$noticiaServico = new NoticiaServico();
+
+$id = Utils::sanitizar($_GET['id'], 'inteiro');
+if(!$id) Utils::redirecionarPara("noticias.php");
+
+try {
+    $dados = $noticiaServico->buscarPorId($id, $_SESSION['tipo'], $_SESSION['id']);
+    if(!$dados) $erro = "Notícia não encontrada";
+
+    Utils::dump($dados);
+} catch (Throwable $e) {
+    $erro = "Erro ao buscar dados da notícia. <br>".$e->getMessage();
+}
 
 require_once "../includes/cabecalho-admin.php";
 
@@ -15,6 +33,10 @@ require_once "../includes/cabecalho-admin.php";
             Atualizar dados da notícia
         </h2>
 
+        <?php if ($erro): ?>
+		<p class="alert alert-danger text-center"> <?=$erro?> </p>
+		<?php endif; ?>
+        
         <form class="mx-auto w-75" action="" method="post" id="form-atualizar" name="form-atualizar" autocomplete="off">
             <input type="hidden" name="id" value="id da notícia...">
 
