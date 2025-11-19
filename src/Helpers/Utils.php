@@ -68,6 +68,51 @@ class Utils {
     public static function formatarData(string $valorData): string {
         return date('d/m/Y H:i:s', strtotime($valorData));
     }
+
+    public static function upload(?array $arquivo): void {
+        
+        /* Validação inicial. verificando se:
+        - não tem arquivo
+        - não existe alguma refeencia na area temporaria
+        - não for um arquivo que possa/permita upload/envio */
+        if (
+            !$arquivo ||
+            !isset($arquivo["tmp_name"]) ||
+            !is_uploaded_file($arquivo["tmp_name"])
+        ) {
+        throw new Exception("Nenhum arquivo válido foi enviado.");
+        }
+
+        // Definindo uma pasta no servidor/site para receber a imagem enviada
+        $pastaDeDestino = "../images/";
+
+        // Validação dos formatos de imagem
+        $formatosPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+
+        // Definindo um tamanho máximo pra imagens
+        $tamanhoMaximo = 2 * 1024 * 1024; // 2MB
+
+        $formatoDoArquivoEnviado = mime_content_type($arquivo["tmp_name"]);
+
+        // Se o formato NÃO ESTIVER na lista de formatos permitidos
+        if (!in_array($formatoDoArquivoEnviado, $formatosPermitidos)) {
+        throw new Exception("Apenas arquivos JPG, PNG, GIF e SVG são permitidos.");
+        }
+
+        // Se o tamanho do arquivo enviado for acima do máximo
+        if ($arquivo["size"] > $tamanhoMaximo) {
+        throw new Exception("O arquivo é muito grande. Tamanho máximo: 2MB.");
+        }
+
+        // Montando o nome/caminho do arquivo que será guardado na pasta imagens
+        $nomeDoArquivo = $pastaDeDestino . basename($arquivo["name"]);
+
+        // Se NÃO CONSEGUIR executar a função move_uploaded_File, lançar uma exceção
+        if (!move_uploaded_file($arquivo["tmp_name"], $nomeDoArquivo)) {
+        throw new Exception("Erro ao mover o arquivo. Código de erro: " . $arquivo["error"]);
+        }
+        }
+
 }
 
 ?>

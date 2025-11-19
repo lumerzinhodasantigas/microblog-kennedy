@@ -36,5 +36,44 @@ class NoticiaServico{
         return $consulta->fetchAll();
     }   
 
+    // admin/noticia-insere.php
+    public function inserir(Noticia $dadosNoticia): void {
+        $sql = "INSERT INTO noticias(
+                    titulo, texto, resumo, imagem, usuario_id
+                    ) VALUES(
+                        :titulo, :texto, :resumo, :imagem, :usuario_id
+                    )";
 
+        $consulta = $this->conexao->prepare($sql);
+
+        $consulta->bindValue(":titulo", $dadosNoticia->getTitulo());
+        $consulta->bindValue(":texto", $dadosNoticia->getTexto());
+        $consulta->bindValue(":resumo", $dadosNoticia->getResumo());
+        $consulta->bindValue(":imagem", $dadosNoticia->getImagem());
+        $consulta->bindValue(":usuario_id", $dadosNoticia->getUsuarioId());
+
+        $consulta->execute();
+    }
+
+    public function buscarPorId( int $idNoticia, string $tipoUsuario, int $idUsuario ): ?array{
+
+        if($tipoUsuario === 'admin'){
+            /* Pode buscar/exibir qualquer notícia, bastando saber o id da notícia */
+            $sql = "SELECT * FROM noticias WHERE id = :id";
+        } else {
+            /* Senão, pode buscar/exibir qualquer noitica desde que seja dele próprio */
+            $sql = "SELECT * FROM noticias WHERE id = :id AND usuario_id = :usuario_id";
+        }
+
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":id", $idNoticia); // fica fora do IF porque é usado nos dois SQL
+
+        if($tipoUsuario !== 'admin' ){
+            // fica dentro do IF porque é usado apenas no SQL do editor
+            $consulta->bindValue(":usuario_id", $idUsuario);
+        }
+
+        $consulta->execute();
+        return $consulta->fetch() ?: null;
+    }
 }
