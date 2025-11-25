@@ -117,11 +117,11 @@ class NoticiaServico{
     public function excluir( int $idNoticia, int $idUsuario, string $tipoUsuario):void {
         if($tipoUsuario === 'admin'){
 
-            $sql = "DELETE FROM usuarios WHERE id = :id";
+            $sql = "DELETE FROM noticias WHERE id = :id";
 
         } else {
 
-            $sql = "DELETE FROM usuarios WHERE id = :id AND usuario_id = :usuario_id";
+            $sql = "DELETE FROM noticias WHERE id = :id AND usuario_id = :usuario_id";
 
         }
 

@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     Utils::upload($arquivo);
 
                     // E aproveitamos para pegar APENAS o nome e extenão do novo arquivo
-                    $imagem = $arquivo['nome'];
+                    $imagem = $arquivo['name'];
                 } else {
 
                     // Caso contrário, vamos manter a imagem que já existe
@@ -72,10 +72,10 @@ require_once "../includes/cabecalho-admin.php";
         </h2>
 
         <?php if ($erro): ?>
-		<p class="alert alert-danger text-center"> <?=$erro?> </p>
+		    <p class="alert alert-danger text-center"> <?=$erro?> </p>
 		<?php endif; ?>
         
-        <form class="mx-auto w-75" action="" method="post" id="form-atualizar" name="form-atualizar" autocomplete="off">
+        <form class="mx-auto w-75" action="" method="post" id="form-atualizar" name="form-atualizar" autocomplete="off" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= $dados['id'] ?>">
 
             <div class="mb-3">
@@ -111,6 +111,7 @@ require_once "../includes/cabecalho-admin.php";
     </article>
 </div>
 
+<script src="../js/contagem.js"></script>
 
 <?php
 require_once "../includes/rodape-admin.php";

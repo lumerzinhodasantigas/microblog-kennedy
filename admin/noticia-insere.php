@@ -91,6 +91,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	</article>
 </div>
 
+<script src="../js/contagem.js"></script>
 
 <?php
 require_once "../includes/rodape-admin.php";
