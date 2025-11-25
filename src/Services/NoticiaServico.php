@@ -105,10 +105,31 @@ class NoticiaServico{
         $consulta->bindValue(":resumo", $dadosNoticia->getResumo());
         $consulta->bindValue(":imagem", $dadosNoticia->getImagem());
         $consulta->bindValue(":id", $dadosNoticia->getId());
-        $consulta->bindValue(":usuario_id", $dadosNoticia->getUsuarioId());
 
         if($tipoUsuario !== 'admin'){
             $consulta->bindValue(":usuario_id", $dadosNoticia->getUsuarioId());
+        }
+
+        $consulta->execute();
+    }
+
+    // admin/noticia-exclui.php
+    public function excluir( int $idNoticia, int $idUsuario, string $tipoUsuario):void {
+        if($tipoUsuario === 'admin'){
+
+            $sql = "DELETE FROM usuarios WHERE id = :id";
+
+        } else {
+
+            $sql = "DELETE FROM usuarios WHERE id = :id AND usuario_id = :usuario_id";
+
+        }
+
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":id", $idNoticia);
+
+        if($tipoUsuario !== 'admin'){
+            $consulta->bindValue(":usuario_id", $idUsuario);
         }
 
         $consulta->execute();
