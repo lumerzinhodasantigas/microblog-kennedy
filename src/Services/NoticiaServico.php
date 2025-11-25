@@ -75,5 +75,42 @@ class NoticiaServico{
 
         $consulta->execute();
         return $consulta->fetch() ?: null;
+
+    }
+
+    // admin/noticia-atualiza.php
+
+    public function atualizar(Noticia $dadosNoticia, string $tipoUsuario): void{
+        if($tipoUsuario === 'admin'){
+            $sql = "UPDATE noticias SET
+                        titulo = :titulo,
+                        texto = :texto,
+                        resumo = :resumo,
+                        imagem = :imagem
+                    WHERE id = :id";
+
+        } else {
+            $sql = "UPDATE noticias SET
+                        titulo = :titulo,
+                        texto = :texto,
+                        resumo = :resumo,
+                        imagem = :imagem
+                    WHERE id = :id AND usuario_id = :usuario_id";
+        }
+
+        $consulta = $this->conexao->prepare($sql);
+
+        $consulta->bindValue(":titulo", $dadosNoticia->getTitulo());
+        $consulta->bindValue(":texto", $dadosNoticia->getTexto());
+        $consulta->bindValue(":resumo", $dadosNoticia->getResumo());
+        $consulta->bindValue(":imagem", $dadosNoticia->getImagem());
+        $consulta->bindValue(":id", $dadosNoticia->getId());
+        $consulta->bindValue(":usuario_id", $dadosNoticia->getUsuarioId());
+
+        if($tipoUsuario !== 'admin'){
+            $consulta->bindValue(":usuario_id", $dadosNoticia->getUsuarioId());
+        }
+
+        $consulta->execute();
     }
 }
