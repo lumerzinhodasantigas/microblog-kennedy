@@ -134,4 +134,32 @@ class NoticiaServico{
 
         $consulta->execute();
     }
+
+    /* Métodos para a área pública do site */
+
+    public function buscarNoticiasParaPublico():array {
+        $sql = "SELECT id, titulo, resumo, imagem
+                FROM noticias ORDER BY data DESC";
+
+        $consulta = $this->conexao->query($sql);
+        return $consulta->fetchAll();
+    }
+
+    public function exibirNoticiaCompleta(int $idNoticia): array {
+        $sql = "SELECT
+                    noticias.id,
+                    noticias.titulo,
+                    noticias.data,
+                    noticias.texto,
+                    noticias.imagem,
+                    usuarios.nome AS autor
+                FROM noticias JOIN usuarios
+                ON noticias.usuario_id = usuarios.id
+                WHERE noticias.id = :id";
+
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":id", $idNoticia);
+        $consulta->execute();
+        return $consulta->fetch();
+    }
 }
