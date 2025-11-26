@@ -24,13 +24,13 @@ require_once "includes/cabecalho.php";
         
     <article class="col-12">
         <h2> <?= $dados['titulo'] ?> </h2>
-        <p class="font-weight-light">
+            <p class="font-weight-light">
             <time datetime="<?= $dados['data'] ?>">
                 <?= Utils::formatarData($dados['data']) ?>
-            </time> - 
-            <span><?= $dados['autor'] ?>
+            </time> – 
+        <span><?= $dados['autor'] ?></span> </p>
         <img src="images/<?= $dados['imagem'] ?>" alt="" class="float-start pe-2 img-fluid">
-        <p class=""><?= $dados['texto'] ?></p>
+        <p class="ajusta-texto"><?= $dados['texto'] ?></p>
     </article>
     
 
