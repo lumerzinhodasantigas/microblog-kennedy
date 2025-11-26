@@ -163,26 +163,31 @@ class NoticiaServico{
         return $consulta->fetch();
     }
 
-    public function buscarNoticias(string $valorProcurado):array{
+    public function buscarNoticias(string $valorProcurado): array {
         $sql = "SELECT 
                     id, titulo, resumo, data
                 FROM noticias
-                WHERE titulo = :titulo OR resumo = :resumo OR texto = :texto
+                WHERE titulo LIKE :valor
+                OR resumo LIKE :valor
+                OR texto  LIKE :valor
                 ORDER BY data DESC";
 
         $consulta = $this->conexao->prepare($sql);
-
-        $consulta->bindValue(":valor", '%' .$valorProcurado. '%');
+        $consulta->bindValue(":valor", '%' . $valorProcurado . '%');
 
         $consulta->execute();
         return $consulta->fetchAll();
 
         /* Sobre os operadores LIKE e %
-            Ao programar buscar em campos, para que a busca não seja restritiva demais,
-            em vez de usar coluna = valorProcurado, usamos coluna LIKE valorProcurado.
+        Ao programar buscar em campos, para que a busca não seja restritiva demais,
+        em vez de usar coluna = valorProcurado, usamos coluna LIKE valorProcurado.
 
-            E para que a busca possibilite encontrar a palavra/termo em qualquer
-            parte de uma frase/texto, aplicamos o operador coringa % antes e depois
-            do que está sendo buscado */
+        E para que a busca possibilite encontrar a palavra/termo em qualquer
+        parte de uma frase/texto, aplicamos o operador coringa % antes e depois
+        do que está sendo buscado */
+
     }
+
+
+        
 }
